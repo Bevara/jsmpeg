@@ -53,14 +53,14 @@ WASM.prototype.loadFromBuffer = function(buffer, callback) {
 		return;
 	}
 
-	this.memory = new WebAssembly.Memory({initial: 256});
+	//this.memory = new WebAssembly.Memory({initial: 256});
 	var env = {
-		memory: this.memory,
+		/*memory: this.memory,
 		memoryBase: 0,
 		__memory_base: 0,
 		table: new WebAssembly.Table({initial: this.moduleInfo.tableSize, element: 'anyfunc'}),
 		tableBase: 0,
-		__table_base: 0,
+		__table_base: 0,*/
 		abort: this.c_abort.bind(this),
 		___assert_fail: this.c_assertFail.bind(this),
 		_sbrk: this.c_sbrk.bind(this)
@@ -69,6 +69,7 @@ WASM.prototype.loadFromBuffer = function(buffer, callback) {
 	this.brk = this.align(this.moduleInfo.memorySize + this.stackSize);
 	WebAssembly.instantiate(buffer, {env: env}).then(function(results){
 		this.instance = results.instance;
+		this.memory = this.instance.exports.memory;
 		if (this.instance.exports.__post_instantiate) {
 			this.instance.exports.__post_instantiate();
 		}
@@ -159,10 +160,10 @@ WASM.prototype.readDylinkSection = function(buffer) {
 	// Make sure we have a dylink section
 	var next = 9;
 	var sectionSize = readVarUint();
-	if (!matchNextBytes([6, 'd', 'y', 'l', 'i', 'n', 'k'])) {
-		console.warn('JSMpeg: No dylink section found in WASM');
-		return null;
-	}
+	// if (!matchNextBytes([6, 'd', 'y', 'l', 'i', 'n', 'k'])) {
+	// 	console.warn('JSMpeg: No dylink section found in WASM');
+	// 	return null;
+	// }
 
 	return {
 		memorySize: readVarUint(),

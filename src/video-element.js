@@ -1,7 +1,8 @@
 JSMpeg.VideoElement = (function(){ "use strict";
 
-var VideoElement = function(element) {	
-	var url = element.dataset.url;
+var VideoElement = function(element, canvas) {	
+	var url = canvas.dataset.url;
+	element = canvas;
 
 	if (!url) {
 		throw ("VideoElement has no `data-url` attribute");
@@ -21,16 +22,17 @@ var VideoElement = function(element) {
 		minWidth: '80px', minHeight: '80px'
 	});
 
-	this.canvas = document.createElement('canvas');
+	//this.canvas = document.createElement('canvas');
+	this.canvas = canvas;
 	this.canvas.width = 960;
 	this.canvas.height = 540;
 	addStyles(this.canvas, {
 		display: 'block',
 		width: '100%'
 	});
-	this.container.appendChild(this.canvas);
+	//this.container.appendChild(this.canvas);
 
-	this.playButton = document.createElement('div');
+	/*this.playButton = document.createElement('div');
 	this.playButton.innerHTML = VideoElement.PLAY_BUTTON;
 	addStyles(this.playButton, {
 		zIndex: 2, position: 'absolute',
@@ -38,9 +40,10 @@ var VideoElement = function(element) {
 		maxWidth: '75px', maxHeight: '75px',
 		margin: 'auto',
 		opacity: '0.7',
-		cursor: 'pointer'
+		cursor: 'pointer',
+		'background-color': 'black'
 	});
-	this.container.appendChild(this.playButton);	
+	this.container.appendChild(this.playButton);	*/
 
 	// Parse the data-options - we try to decode the values as json. This way
 	// we can get proper boolean and number values. If JSON.parse() fails,
@@ -77,10 +80,10 @@ var VideoElement = function(element) {
 		this.container.addEventListener('click', this.onClick.bind(this));
 	}
 
-	// Hide the play button if this video immediately begins playing
+	/*// Hide the play button if this video immediately begins playing
 	if (options.autoplay || this.player.options.streaming) {
 		this.playButton.style.display = 'none';
-	}
+	}*/
 
 	// Set up the unlock audio buton for iOS devices. iOS only allows us to 
 	// play audio after a user action has initiated playing. For autoplay or 
@@ -127,14 +130,14 @@ VideoElement.prototype.onUnlockAudio = function(element, ev) {
 VideoElement.prototype.onClick = function(ev) {
 	if (this.player.isPlaying) {
 		this.player.pause();
-		this.playButton.style.display = 'block';
+		//this.playButton.style.display = 'block';
 	}
 	else {
 		this.player.play();
-		this.playButton.style.display = 'none';
+		/*this.playButton.style.display = 'none';
 		if (this.poster) {
 			this.poster.style.display = 'none';
-		}
+		}*/
 	}
 };
 

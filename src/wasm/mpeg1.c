@@ -1611,7 +1611,7 @@ void zero_block_data(mpeg1_decoder_t *self) {
 	}
 }
 
-inline uint8_t clamp_to_uint8(int n) {
+uint8_t clamp_to_uint8(int n) {
 	return n > 255 
 		? 255 
 		: (n < 0 ? 0 : n);
