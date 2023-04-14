@@ -1,8 +1,8 @@
 JSMpeg.VideoElement = (function(){ "use strict";
 
-var VideoElement = function(element, canvas) {	
+var VideoElement = function(canvas) {	
 	var url = canvas.dataset.url;
-	element = canvas;
+	const element = canvas;
 
 	if (!url) {
 		throw ("VideoElement has no `data-url` attribute");
@@ -15,7 +15,7 @@ var VideoElement = function(element, canvas) {
 		}
 	};
 
-	this.container = element;
+	this.container = canvas;
 	addStyles(this.container, {
 		display: 'inline-block',
 		position: 'relative',
@@ -26,10 +26,10 @@ var VideoElement = function(element, canvas) {
 	this.canvas = canvas;
 	this.canvas.width = 960;
 	this.canvas.height = 540;
-	addStyles(this.canvas, {
+	/*addStyles(this.canvas, {
 		display: 'block',
 		width: '100%'
-	});
+	});*/
 	//this.container.appendChild(this.canvas);
 
 	/*this.playButton = document.createElement('div');
